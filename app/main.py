@@ -1,5 +1,5 @@
 import json
-import xml.etree.ElementTree as et
+import xml.etree.ElementTree as ElementTree
 from abc import ABC, abstractmethod
 
 
@@ -63,12 +63,12 @@ class SerializeXmlBook(Book):
 
     def serialize_xml(self, serialize_type: str) -> str:
         if serialize_type == "xml":
-            root = et.Element("book")
-            title = et.SubElement(root, "title")
+            root = ElementTree.Element("book")
+            title = ElementTree.SubElement(root, "title")
             title.text = self.title
-            content = et.SubElement(root, "content")
+            content = ElementTree.SubElement(root, "content")
             content.text = self.content
-            return et.tostring(root, encoding="unicode")
+            return ElementTree.tostring(root, encoding="unicode")
         else:
             raise ValueError(f"Unknown serialize type: {serialize_type}")
 
