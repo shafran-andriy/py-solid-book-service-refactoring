@@ -5,12 +5,13 @@ from abc import ABC, abstractmethod
 
 class Book(ABC):
     @abstractmethod
-    def __init__(self, title: str, content: str):
+    def __init__(self, title: str, content: str) -> None:
         self.title = title
         self.content = content
-        
+
+
 class DisplayBook(Book):
-    def __init__(self, title, content):
+    def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)    
         
     def display_console(self, display_type: str) -> None:    
@@ -24,9 +25,10 @@ class DisplayBook(Book):
             print(self.content[::-1])
         else:
             raise ValueError(f"Unknown display type: {display_type}")
-        
+
+  
 class PrintBook(Book):
-    def __init__(self, title, content):
+    def __init__(self, title: str, content: str):
         super().__init__(title, content)    
         
     def print_console(self, print_type: str) -> None:
@@ -42,9 +44,10 @@ class PrintBook(Book):
             print(self.content[::-1])
         else:
             raise ValueError(f"Unknown print type: {print_type}")
-        
+
+
 class SerializeJsonBook(Book):
-    def __init__(self, title, content):
+    def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)    
         
     def serialize_json(self, serialize_type: str) -> str:
@@ -52,9 +55,10 @@ class SerializeJsonBook(Book):
             return json.dumps({"title": self.title, "content": self.content})
         else:
             raise ValueError(f"Unknown serialize type: {serialize_type}")
-        
+
+     
 class SerializeXmlBook(Book):
-    def __init__(self, title, content):
+    def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)    
         
     def serialize_xml(self, serialize_type: str) -> str:
