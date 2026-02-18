@@ -1,5 +1,5 @@
 import json
-import xml.etree.ElementTree as ET
+import xml.etree.ElementTree as et
 from abc import ABC, abstractmethod
 
 
@@ -13,7 +13,7 @@ class Book(ABC):
 class DisplayBook(Book):
     def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)
-        
+
     def display_console(self, display_type: str) -> None:
         if display_type == "console":
             print(self.content)
@@ -26,7 +26,7 @@ class DisplayBook(Book):
         else:
             raise ValueError(f"Unknown display type: {display_type}")
 
-  
+
 class PrintBook(Book):
     def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)
@@ -63,12 +63,12 @@ class SerializeXmlBook(Book):
 
     def serialize_xml(self, serialize_type: str) -> str:
         if serialize_type == "xml":
-            root = ET.Element("book")
-            title = ET.SubElement(root, "title")
+            root = et.Element("book")
+            title = et.SubElement(root, "title")
             title.text = self.title
-            content = ET.SubElement(root, "content")
+            content = et.SubElement(root, "content")
             content.text = self.content
-            return ET.tostring(root, encoding="unicode")
+            return et.tostring(root, encoding="unicode")
         else:
             raise ValueError(f"Unknown serialize type: {serialize_type}")
 
