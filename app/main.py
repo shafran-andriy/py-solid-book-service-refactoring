@@ -12,14 +12,14 @@ class Book(ABC):
 
 class DisplayBook(Book):
     def __init__(self, title: str, content: str) -> None:
-        super().__init__(title, content)    
+        super().__init__(title, content)
         
-    def display_console(self, display_type: str) -> None:    
+    def display_console(self, display_type: str) -> None:
         if display_type == "console":
             print(self.content)
         else:
             raise ValueError(f"Unknown display type: {display_type}")
-        
+
     def display_reverse(self, display_type: str) -> None:
         if display_type == "reverse":
             print(self.content[::-1])
@@ -28,16 +28,16 @@ class DisplayBook(Book):
 
   
 class PrintBook(Book):
-    def __init__(self, title: str, content: str):
-        super().__init__(title, content)    
-        
+    def __init__(self, title: str, content: str) -> None:
+        super().__init__(title, content)
+
     def print_console(self, print_type: str) -> None:
         if print_type == "console":
             print(f"Printing the book: {self.title}...")
             print(self.content)
         else:
             raise ValueError(f"Unknown print type: {print_type}")
-        
+
     def print_reverse(self, print_type: str) -> None:
         if print_type == "reverse":
             print(f"Printing the book in reverse: {self.title}...")
@@ -48,19 +48,19 @@ class PrintBook(Book):
 
 class SerializeJsonBook(Book):
     def __init__(self, title: str, content: str) -> None:
-        super().__init__(title, content)    
-        
+        super().__init__(title, content)
+
     def serialize_json(self, serialize_type: str) -> str:
         if serialize_type == "json":
             return json.dumps({"title": self.title, "content": self.content})
         else:
             raise ValueError(f"Unknown serialize type: {serialize_type}")
 
-     
+
 class SerializeXmlBook(Book):
     def __init__(self, title: str, content: str) -> None:
-        super().__init__(title, content)    
-        
+        super().__init__(title, content)
+
     def serialize_xml(self, serialize_type: str) -> str:
         if serialize_type == "xml":
             root = ET.Element("book")
@@ -74,7 +74,7 @@ class SerializeXmlBook(Book):
 
 
 def main(book: DisplayBook | PrintBook | SerializeJsonBook | SerializeXmlBook,
-        commands: list[tuple[str, str]]) -> None | str:
+         commands: list[tuple[str, str]]) -> None | str:
     for cmd, method_type in commands:
         if cmd == "display" and method_type == "console":
             book.display_console(method_type)
