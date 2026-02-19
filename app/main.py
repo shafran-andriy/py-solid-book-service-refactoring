@@ -2,18 +2,21 @@ import json
 import xml.etree.ElementTree as ElementTree
 from abc import ABC, abstractmethod
 
-
-class Book(ABC):
-    @abstractmethod
+class BookCatalog():
     def __init__(self, title: str, content: str) -> None:
         self.title = title
         self.content = content
 
+class Displayable(BookCatalog, ABC):
+    @abstractmethod
+    def display_console(self, display_type: str) -> None:
+        pass
 
-class DisplayBook(Book):
-    def __init__(self, title: str, content: str) -> None:
-        super().__init__(title, content)
+    @abstractmethod
+    def display_reverse(self, display_type: str) -> None:
+        pass
 
+class DisplayBook(Displayable):
     def display_console(self, display_type: str) -> None:
         if display_type == "console":
             print(self.content)
@@ -27,7 +30,17 @@ class DisplayBook(Book):
             raise ValueError(f"Unknown display type: {display_type}")
 
 
-class PrintBook(Book):
+class Printable(BookCatalog, ABC):
+    @abstractmethod
+    def print_console(self, print_type: str) -> None:
+        pass
+
+    @abstractmethod
+    def print_reverse(self, print_type: str) -> None:
+        pass
+
+
+class PrintBook(Printable):
     def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)
 
@@ -46,7 +59,17 @@ class PrintBook(Book):
             raise ValueError(f"Unknown print type: {print_type}")
 
 
-class SerializeJsonBook(Book):
+class Serializable(BookCatalog, ABC):
+    @abstractmethod
+    def serialize_json(self, serialize_type: str) -> str:
+        pass
+
+    @abstractmethod
+    def serialize_xml(self, serialize_type: str) -> str:
+        pass
+
+
+class SerializeJsonBook(Serializable):
     def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)
 
@@ -57,7 +80,7 @@ class SerializeJsonBook(Book):
             raise ValueError(f"Unknown serialize type: {serialize_type}")
 
 
-class SerializeXmlBook(Book):
+class SerializeXmlBook(Serializable):
     def __init__(self, title: str, content: str) -> None:
         super().__init__(title, content)
 
@@ -72,6 +95,9 @@ class SerializeXmlBook(Book):
         else:
             raise ValueError(f"Unknown serialize type: {serialize_type}")
 
+
+class Book(DisplayBook, PrintBook, SerializeJsonBook, SerializeXmlBook):
+    pass
 
 def main(book: DisplayBook | PrintBook | SerializeJsonBook | SerializeXmlBook,
          commands: list[tuple[str, str]]) -> None | str:
