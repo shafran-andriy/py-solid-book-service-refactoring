@@ -2,10 +2,12 @@ import json
 import xml.etree.ElementTree as ElementTree
 from abc import ABC, abstractmethod
 
+
 class BookCatalog():
     def __init__(self, title: str, content: str) -> None:
         self.title = title
         self.content = content
+
 
 class Displayable(BookCatalog, ABC):
     @abstractmethod
@@ -15,6 +17,7 @@ class Displayable(BookCatalog, ABC):
     @abstractmethod
     def display_reverse(self, display_type: str) -> None:
         pass
+
 
 class DisplayBook(Displayable):
     def display_console(self, display_type: str) -> None:
@@ -98,6 +101,7 @@ class SerializeXmlBook(Serializable):
 
 class Book(DisplayBook, PrintBook, SerializeJsonBook, SerializeXmlBook):
     pass
+
 
 def main(book: DisplayBook | PrintBook | SerializeJsonBook | SerializeXmlBook,
          commands: list[tuple[str, str]]) -> None | str:
